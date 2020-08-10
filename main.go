@@ -139,6 +139,7 @@ func main() {
 			Hourly:         hourly,
 			OnDemandAnnual: onDemandCost,
 			ReservedAnnual: reservedAnnual,
+			CPUMfgr:        mfgrFromString(attrs.PhysicalProcessor),
 		}
 
 		instances = append(instances, instance)
@@ -146,13 +147,44 @@ func main() {
 
 	sort.Slice(instances, func(a, b int) bool { return instances[a].OnDemandAnnual < instances[b].OnDemandAnnual })
 
-	format := "%15s %10.01f %6s %15s %12d %9.04f %9.02f %.2f\n"
-	fmt.Printf("%15s %10s %6s %15s %12s %9s %9s %s\n", "type", "mem", "vcpu", "disk", "disk_total", "hourly", "annual", "annual-reserved")
+	format := "%15s %10.01f %6s %15s %5d %3s %9.04f %9.02f %.2f\n"
+	fmt.Printf("%15s %10s %6s %15s %5s %3s %9s %9s %s\n", "type", "mem", "vcpu", "disk", "dsk", "mfg", "hourly", "annual", "annual-reserved")
 
 	for _, in := range instances {
-		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.DiskTotal, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
+		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.DiskTotal, in.CPUMfgr, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
+	}
+}
+
+type CPUManufacturer int
+
+const (
+	CPUIntel CPUManufacturer = 1
+	CPUAMD   CPUManufacturer = 2
+	CPUAWS   CPUManufacturer = 3
+)
+
+func (c CPUManufacturer) String() string {
+	switch c {
+	case CPUIntel:
+		return "int"
+	case CPUAMD:
+		return "amd"
+	case CPUAWS:
+		return "arm"
 	}
 
+	return "unk"
+}
+
+func mfgrFromString(s string) CPUManufacturer {
+	if strings.Contains(s, "Intel") {
+		return CPUIntel
+	} else if strings.Contains(s, "AMD") {
+		return CPUAMD
+	} else if strings.Contains(s, "AWS") {
+		return CPUAWS
+	}
+	return 0
 }
 
 type InstanceType struct {
@@ -165,6 +197,8 @@ type InstanceType struct {
 	Hourly         float64
 	OnDemandAnnual float64
 	ReservedAnnual float64
+	CPUMfgr        CPUManufacturer
+	CurrentGen     string
 }
 
 func checkErr(err error, msg string) {
