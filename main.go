@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -16,11 +18,26 @@ var (
 	basePriceURL = "https://pricing.us-east-1.amazonaws.com"
 	indexPath    = "/offers/v1.0/aws/index.json"
 
-	region = flag.String("region", "us-east-1", "AWS Region")
+	region           = flag.String("region", "us-east-1", "AWS Region")
+	fetchOffers      = flag.Bool("fetch_offers", false, "Fetch offers and price file to disk")
+	familyTypes      = flag.Bool("family", false, "Print family type information")
+	checkFamilyTypes = flag.Bool("check_family", false, "Check family types against instance types (for missing types)")
 )
 
 func main() {
 	flag.Parse()
+
+	if *familyTypes {
+		seen := make(map[string]bool)
+		for _, ft := range instanceTypes {
+			if seen[ft.Name] {
+				fmt.Fprintf(os.Stderr, "!!! Duplicate family type found: %s\n", ft)
+			}
+			seen[ft.Name] = true
+			fmt.Printf("%5.5s %4d %10.10s %s\n", ft.Name, ft.Year, ft.Prefix, ft.Flags)
+		}
+		return
+	}
 
 	r, err := http.Get(basePriceURL + indexPath)
 	checkErr(err, "Get index")
@@ -30,11 +47,12 @@ func main() {
 		log.Fatalf("Get index status %d\n%s", r.StatusCode, b)
 	}
 
-	dec := json.NewDecoder(r.Body)
+	br := teeToFile(r.Body, "/tmp/ec2-price-index.json")
+	dec := json.NewDecoder(br)
 	var idx PriceIndex
 	err = dec.Decode(&idx)
 	checkErr(err, "Read index json")
-	r.Body.Close()
+	br.Close()
 
 	regionURL := idx.Offers["AmazonEC2"].CurrentRegionIndexURL
 
@@ -46,11 +64,12 @@ func main() {
 		log.Fatalf("Get region index status %d\n%s", r.StatusCode, b)
 	}
 
-	dec = json.NewDecoder(r.Body)
+	br = teeToFile(r.Body, "/tmp/ec2-price-region-index.json")
+	dec = json.NewDecoder(br)
 	var regionIdx RegionIndex
 	err = dec.Decode(&regionIdx)
 	checkErr(err, "Read region index json")
-	r.Body.Close()
+	br.Close()
 
 	ec2Path := regionIdx.Regions[*region].CurrentVersionURL
 
@@ -62,13 +81,15 @@ func main() {
 		log.Fatalf("Get prices status %d\n%s", r.StatusCode, b)
 	}
 
-	dec = json.NewDecoder(r.Body)
+	br = teeToFile(r.Body, "/tmp/ec2-price.json")
+	dec = json.NewDecoder(br)
 	var prices PriceDoc
 	err = dec.Decode(&prices)
 	checkErr(err, "Read price json")
-	r.Body.Close()
+	br.Close()
 
 	var instances []InstanceType
+	families := make(map[string]familyInfo)
 
 	for sku, prod := range prices.Products {
 		attrs := prod.Attributes
@@ -142,6 +163,14 @@ func main() {
 			CPUMfgr:        mfgrFromString(attrs.PhysicalProcessor),
 		}
 
+		family := strings.SplitN(attrs.InstanceType, ".", 2)[0]
+		families[family] = familyInfo{
+			InstanceFamily:    attrs.InstanceFamily,
+			PhysicalProcessor: attrs.PhysicalProcessor,
+			CPUMfgr:           instance.CPUMfgr,
+			CurrentGen:        attrs.CurrentGeneration == "Yes",
+		}
+
 		instances = append(instances, instance)
 	}
 
@@ -153,6 +182,549 @@ func main() {
 	for _, in := range instances {
 		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.DiskTotal, in.CPUMfgr, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
 	}
+
+	if *checkFamilyTypes {
+
+		familyNames := make([]string, 0, len(families))
+
+		for family := range families {
+			familyNames = append(familyNames, family)
+		}
+
+		sort.Strings(familyNames)
+
+		for _, family := range familyNames {
+			var found bool
+			for _, it := range instanceTypes {
+				if it.Name == family {
+					found = true
+					fmt.Println(it.String())
+					break
+				}
+			}
+			if !found {
+				fmt.Printf("!!!missing %s\n", family)
+			}
+		}
+	}
+}
+
+type InstanceTypeInfo struct {
+	Name   string
+	Year   int
+	Prefix InstanceCodePrefix
+	Flags  InstanceCodeSuffix
+}
+
+func (it InstanceTypeInfo) String() string {
+	return fmt.Sprintf("%s %d %s %s", it.Name, it.Year, it.Prefix, it.Flags)
+}
+
+var instanceTypes = []InstanceTypeInfo{
+	{
+		Name:   "m1",
+		Year:   2006,
+		Prefix: MainPrefix,
+	},
+	{
+		Name:   "c1",
+		Year:   2008,
+		Prefix: CpuPrefix,
+	},
+	{
+		Name:   "m2",
+		Year:   2009,
+		Prefix: MainPrefix,
+	},
+	{
+		Name:   "cc1",
+		Year:   2010,
+		Prefix: ClusterComputePrefix,
+	},
+	{
+		Name:   "t1",
+		Year:   2010,
+		Prefix: BurstPrefix,
+	},
+	{
+		Name:   "cg1",
+		Year:   2010,
+		Prefix: GPUPrefix,
+	},
+	{
+		Name:   "cc2",
+		Year:   2011,
+		Prefix: ClusterComputePrefix,
+	},
+	{
+		Name:   "hi1",
+		Year:   2012,
+		Prefix: SSDPrefix,
+	},
+	{
+		Name:   "m3",
+		Year:   2012,
+		Prefix: MainPrefix,
+	},
+	{
+		Name:   "hs1",
+		Year:   2012,
+		Prefix: DenseHDDPrefix,
+	},
+	{
+		Name:   "cr1",
+		Year:   2013,
+		Prefix: ClusterComputePrefix,
+	},
+	{
+		Name:   "c3",
+		Year:   2013,
+		Prefix: CpuPrefix,
+	},
+	{
+		Name:   "g2",
+		Year:   2013,
+		Prefix: GPUPrefix,
+	},
+	{
+		Name:   "i2",
+		Year:   2013,
+		Prefix: SSDPrefix,
+	},
+	{
+		Name:   "r3",
+		Year:   2014,
+		Prefix: MemMorePrefix,
+	},
+	{
+		Name:   "t2",
+		Year:   2014,
+		Prefix: BurstPrefix,
+	},
+	{
+		Name:   "c4",
+		Year:   2015,
+		Prefix: CpuPrefix,
+	},
+	{
+		Name:   "d2",
+		Year:   2015,
+		Prefix: DenseHDDPrefix,
+	},
+	{
+		Name:   "m4",
+		Year:   2015,
+		Prefix: MainPrefix,
+	},
+	{
+		Name:   "x1",
+		Year:   2016,
+		Prefix: MemXtremePrefix,
+	},
+	{
+		Name:   "p2",
+		Year:   2016,
+		Prefix: GPUPrefix,
+	},
+	{
+		Name:   "f1",
+		Year:   2016,
+		Prefix: FPGAPrefix,
+	},
+	{
+		Name:   "r4",
+		Year:   2016,
+		Prefix: MemMorePrefix,
+	},
+	{
+		Name:   "i3",
+		Year:   2016,
+		Prefix: SSDPrefix,
+	},
+	{
+		Name:   "c5",
+		Year:   2016,
+		Prefix: CpuPrefix,
+	},
+	{
+		Name:   "g3",
+		Year:   2017,
+		Prefix: GPUPrefix,
+	},
+	{
+		Name:   "x1e",
+		Year:   2017,
+		Prefix: MemXtremePrefix,
+	},
+	{
+		Name:   "p3",
+		Year:   2017,
+		Prefix: GPUPrefix,
+	},
+	{
+		Name:   "m5",
+		Year:   2017,
+		Prefix: MainPrefix,
+	},
+	{
+		Name:   "h1",
+		Year:   2017,
+		Prefix: DenseHDDPrefix,
+	},
+	{
+		Name:   "c5d",
+		Year:   2018,
+		Prefix: CpuPrefix,
+		Flags:  NVMeSuffix,
+	},
+	{
+		Name:   "m5d",
+		Year:   2018,
+		Prefix: MainPrefix,
+		Flags:  NVMeSuffix,
+	},
+	{
+		Name:   "z1d",
+		Year:   2018,
+		Prefix: HighFreqPrefix,
+	},
+	{
+		Name:   "r5",
+		Year:   2018,
+		Prefix: MemMorePrefix,
+	},
+	{
+		Name:   "t3",
+		Year:   2018,
+		Prefix: BurstPrefix,
+	},
+	{
+		Name:   "g3s",
+		Year:   2018,
+		Prefix: GPUPrefix,
+	},
+	{
+		Name:   "m5a",
+		Year:   2018,
+		Prefix: MainPrefix,
+		Flags:  AmdSuffix,
+	},
+	{
+		Name:   "r5a",
+		Year:   2018,
+		Prefix: MemMorePrefix,
+		Flags:  AmdSuffix,
+	},
+	{
+		Name:   "c5n",
+		Year:   2018,
+		Prefix: CpuPrefix,
+		Flags:  NetworkSuffix,
+	},
+	{
+		Name:   "a1",
+		Year:   2018,
+		Prefix: ArmPrefix,
+	},
+	{
+		Name:   "p3dn",
+		Year:   2018,
+		Prefix: GPUPrefix,
+		Flags:  NVMeSuffix | NetworkSuffix,
+	},
+	{
+		Name:   "g4",
+		Year:   2019,
+		Prefix: GPUPrefix,
+	},
+	{
+		Name:   "m5ad",
+		Year:   2019,
+		Prefix: MainPrefix,
+		Flags:  AmdSuffix | NVMeSuffix,
+	},
+	{
+		Name:   "r5d",
+		Year:   2019,
+		Prefix: MemMorePrefix,
+		Flags:  NVMeSuffix,
+	},
+	{
+		Name:   "r5ad",
+		Year:   2019,
+		Prefix: MemMorePrefix,
+		Flags:  AmdSuffix | NVMeSuffix,
+	},
+	{
+		Name:   "i3en",
+		Year:   2019,
+		Prefix: SSDPrefix,
+		Flags:  NetworkSuffix,
+	},
+	{
+		Name:   "g4dn",
+		Year:   2019,
+		Prefix: GPUPrefix,
+		Flags:  GpuAmdSuffix,
+	},
+	{
+		Name:   "r5dn",
+		Year:   2019,
+		Prefix: MemMorePrefix,
+		Flags:  NVMeSuffix | NetworkSuffix,
+	},
+	{
+		Name:   "r5n",
+		Year:   2019,
+		Prefix: MemMorePrefix,
+		Flags:  NetworkSuffix,
+	},
+	{
+		Name:   "m5dn",
+		Year:   2019,
+		Prefix: MainPrefix,
+		Flags:  NVMeSuffix | NetworkSuffix,
+	},
+	{
+		Name:   "m5n",
+		Year:   2019,
+		Prefix: MainPrefix,
+		Flags:  NetworkSuffix,
+	},
+	{
+		Name:   "inf1",
+		Year:   2019,
+		Prefix: InferencePrefix,
+	},
+	{
+		Name:   "t3a",
+		Year:   2019,
+		Prefix: BurstPrefix,
+		Flags:  AmdSuffix,
+	},
+	{
+		Name:   "c5a",
+		Year:   2020,
+		Prefix: CpuPrefix,
+		Flags:  AmdSuffix,
+	},
+	{
+		Name:   "c5ad",
+		Year:   2020,
+		Prefix: CpuPrefix,
+		Flags:  AmdSuffix | NVMeSuffix,
+	},
+	{
+		Name:   "c6g",
+		Year:   2020,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix,
+	},
+	{
+		Name:   "c6gn",
+		Year:   2020,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix | NetworkSuffix,
+	},
+	{
+		Name:   "c6gd",
+		Year:   2020,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		Name:   "d3",
+		Year:   2020,
+		Prefix: DenseHDDPrefix,
+	},
+	{
+		Name:   "d3en",
+		Year:   2020,
+		Prefix: DenseHDDPrefix,
+		Flags:  NetworkSuffix,
+	},
+	{
+		Name:   "g4ad",
+		Year:   2020,
+		Prefix: GPUPrefix,
+		Flags:  AmdSuffix | NVMeSuffix,
+	},
+	{
+		Name:   "m5zn",
+		Year:   2020,
+		Prefix: MainPrefix,
+		Flags:  HighFreqSuffix | NetworkSuffix,
+	},
+	{
+		Name:   "m6g",
+		Year:   2020,
+		Prefix: MainPrefix,
+		Flags:  GravitonSuffix,
+	},
+	{
+		Name:   "m6gn",
+		Year:   2020,
+		Prefix: MainPrefix,
+		Flags:  GravitonSuffix | NetworkSuffix,
+	},
+	{
+		Name:   "p4d",
+		Year:   2020,
+		Prefix: GPUPrefix,
+		Flags:  NVMeSuffix,
+	},
+	{
+		Name:   "r5b",
+		Year:   2020,
+		Prefix: MemMorePrefix,
+		Flags:  EBSOptimizedSuffix,
+	},
+	{
+		Name:   "r6g",
+		Year:   2020,
+		Prefix: MemMorePrefix,
+		Flags:  GravitonSuffix,
+	},
+	{
+		Name:   "r6gd",
+		Year:   2020,
+		Prefix: MemMorePrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		Name:   "t4g",
+		Year:   2020,
+		Prefix: BurstPrefix,
+		Flags:  GravitonSuffix,
+	},
+}
+
+type InstanceCodePrefix int
+
+const (
+	ArmPrefix InstanceCodePrefix = iota
+	BurstPrefix
+	MainPrefix
+	CpuPrefix
+	MemMorePrefix
+	MemXtremePrefix
+	HighFreqPrefix
+	GPUPrefix
+	InferencePrefix
+	FPGAPrefix
+	SSDPrefix
+	DenseHDDPrefix
+	ClusterComputePrefix
+)
+
+type InstanceCodeSuffix int
+
+const (
+	GravitonSuffix InstanceCodeSuffix = 1 << iota
+	AmdSuffix
+	NVMeSuffix
+	NetworkSuffix
+	GpuNvidiaSuffix
+	GpuAmdSuffix
+	HighFreqSuffix
+	EBSOptimizedSuffix
+)
+
+func (c InstanceCodeSuffix) String() string {
+	var parts []string
+
+	if c&GravitonSuffix == GravitonSuffix {
+		parts = append(parts, "graviton")
+	}
+	if c&AmdSuffix == AmdSuffix {
+		parts = append(parts, "amd")
+	}
+	if c&NVMeSuffix == NVMeSuffix {
+		parts = append(parts, "nvme")
+	}
+	if c&NetworkSuffix == NetworkSuffix {
+		parts = append(parts, "net")
+	}
+	if c&GpuNvidiaSuffix == GpuNvidiaSuffix {
+		parts = append(parts, "gpu-nvidia")
+	}
+	if c&GpuAmdSuffix == GpuAmdSuffix {
+		parts = append(parts, "gpu-amd")
+	}
+	if c&HighFreqSuffix == HighFreqSuffix {
+		parts = append(parts, "high-freq")
+	}
+	if c&EBSOptimizedSuffix == EBSOptimizedSuffix {
+		parts = append(parts, "ebs-optimized")
+	}
+
+	return strings.Join(parts, ",")
+}
+
+func (c InstanceCodePrefix) String() string {
+	switch c {
+	case ArmPrefix:
+		return "arm"
+	case BurstPrefix:
+		return "burst"
+	case MainPrefix:
+		return "main"
+	case CpuPrefix:
+		return "cpu"
+	case MemMorePrefix:
+		return "more-mem"
+	case MemXtremePrefix:
+		return "mem-xtreme"
+	case HighFreqPrefix:
+		return "high-freq"
+	case GPUPrefix:
+		return "gpu"
+	case InferencePrefix:
+		return "inference"
+	case FPGAPrefix:
+		return "fpga"
+	case SSDPrefix:
+		return "ssd"
+	case DenseHDDPrefix:
+		return "dense-hdd"
+	case ClusterComputePrefix:
+		return "cluster-compute"
+	}
+	return fmt.Sprintf("unknown<%x>", int(c))
+}
+
+func teeToFile(rc io.ReadCloser, path string) io.ReadCloser {
+	if !*fetchOffers {
+		return rc
+	}
+
+	f, err := os.Create(path)
+	if err != nil {
+		panic(err)
+	}
+
+	tr := teeReader{
+		Reader: io.TeeReader(rc, f),
+		rc:     rc,
+		f:      f,
+		name:   path,
+	}
+
+	return &tr
+}
+
+type teeReader struct {
+	io.Reader
+
+	rc   io.ReadCloser
+	f    *os.File
+	name string
+}
+
+func (tr *teeReader) Close() error {
+	tr.f.Close()
+	fmt.Printf("wrote %s\n", tr.name)
+	return tr.rc.Close()
 }
 
 type CPUManufacturer int
@@ -299,4 +871,11 @@ type Product struct {
 	} `json:"attributes"`
 	ProductFamily string `json:"productFamily"`
 	Sku           string `json:"sku"`
+}
+
+type familyInfo struct {
+	InstanceFamily    string
+	PhysicalProcessor string
+	CPUMfgr           CPUManufacturer
+	CurrentGen        bool
 }
