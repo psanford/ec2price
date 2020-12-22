@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -22,6 +23,7 @@ var (
 	fetchOffers      = flag.Bool("fetch_offers", false, "Fetch offers and price file to disk")
 	familyTypes      = flag.Bool("family", false, "Print family type information")
 	checkFamilyTypes = flag.Bool("check_family", false, "Check family types against instance types (for missing types)")
+	csvOutput        = flag.Bool("csv", false, "output as csv")
 )
 
 func main() {
@@ -176,8 +178,34 @@ func main() {
 
 	sort.Slice(instances, func(a, b int) bool { return instances[a].OnDemandAnnual < instances[b].OnDemandAnnual })
 
+	fieldNames := []string{"type", "mem", "vcpu", "disk", "dsk", "mfg", "hourly", "annual", "annual-reserved"}
+
+	if *csvOutput {
+		w := csv.NewWriter(os.Stdout)
+		w.Write(fieldNames)
+		for _, in := range instances {
+			w.Write([]string{
+				toS(in.Name),
+				toS(in.Memory),
+				toS(in.VCPU),
+				toS(in.Disk),
+				toS(in.DiskTotal),
+				toS(in.CPUMfgr),
+				toS(in.Hourly),
+				toS(in.OnDemandAnnual),
+				toS(in.ReservedAnnual),
+			})
+		}
+		w.Flush()
+		return
+	}
+
 	format := "%15s %10.01f %6s %15s %5d %3s %9.04f %9.02f %.2f\n"
-	fmt.Printf("%15s %10s %6s %15s %5s %3s %9s %9s %s\n", "type", "mem", "vcpu", "disk", "dsk", "mfg", "hourly", "annual", "annual-reserved")
+	var fieldNamesI []interface{} = make([]interface{}, len(fieldNames))
+	for i, d := range fieldNames {
+		fieldNamesI[i] = d
+	}
+	fmt.Printf("%15s %10s %6s %15s %5s %3s %9s %9s %s\n", fieldNamesI...)
 
 	for _, in := range instances {
 		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.DiskTotal, in.CPUMfgr, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
@@ -878,4 +906,23 @@ type familyInfo struct {
 	PhysicalProcessor string
 	CPUMfgr           CPUManufacturer
 	CurrentGen        bool
+}
+
+func toS(i interface{}) string {
+	switch v := i.(type) {
+	case bool:
+		return strconv.FormatBool(v)
+	case float32:
+		return strconv.FormatFloat(float64(v), 'f', 3, 64)
+	case float64:
+		return strconv.FormatFloat(v, 'f', 3, 64)
+	case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+		return fmt.Sprintf("%d", v)
+	case string:
+		return v
+	case fmt.Stringer:
+		return v.String()
+	default:
+		return fmt.Sprintf("%+v", i)
+	}
 }
