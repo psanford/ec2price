@@ -459,6 +459,7 @@ $ ./ec2price -family
   r6g 2020   more-mem graviton
  r6gd 2020   more-mem graviton,nvme
   t4g 2020      burst graviton
+ x2gd 2021 mem-xtreme graviton,nvme
 
 
 # flags

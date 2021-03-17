@@ -625,6 +625,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: BurstPrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2gd-instances-graviton2-power-for-memory-intensive-workloads/
+		Name:   "x2gd",
+		Year:   2021,
+		Prefix: MemXtremePrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
