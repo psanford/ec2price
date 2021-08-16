@@ -632,6 +632,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemXtremePrefix,
 		Flags:  GravitonSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6i-instances-powered-by-the-latest-generation-intel-xeon-scalable-processors/
+		Name:   "m6i",
+		Year:   2022,
+		Prefix: MainPrefix,
+		Flags:  IntelSuffix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -663,6 +670,7 @@ const (
 	GpuAmdSuffix
 	HighFreqSuffix
 	EBSOptimizedSuffix
+	IntelSuffix
 )
 
 func (c InstanceCodeSuffix) String() string {
@@ -691,6 +699,9 @@ func (c InstanceCodeSuffix) String() string {
 	}
 	if c&EBSOptimizedSuffix == EBSOptimizedSuffix {
 		parts = append(parts, "ebs-optimized")
+	}
+	if c&IntelSuffix == IntelSuffix {
+		parts = append(parts, "intel")
 	}
 
 	return strings.Join(parts, ",")
