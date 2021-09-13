@@ -639,6 +639,12 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  IntelSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2021/09/amazon-ec2-vt1-instances-video-transcoding/
+		Name:   "vt1",
+		Year:   2021,
+		Prefix: VideoTranscodingPrefix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -657,6 +663,7 @@ const (
 	SSDPrefix
 	DenseHDDPrefix
 	ClusterComputePrefix
+	VideoTranscodingPrefix
 )
 
 type InstanceCodeSuffix int
