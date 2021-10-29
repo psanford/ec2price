@@ -645,6 +645,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2021,
 		Prefix: VideoTranscodingPrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-c6i-instances-powered-by-the-latest-generation-intel-xeon-scalable-processors/
+		Name:   "c6i",
+		Year:   2022,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix,
+	},
 }
 
 type InstanceCodePrefix int
