@@ -652,6 +652,12 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: CpuPrefix,
 		Flags:  IntelSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-ec2-instances-g5-with-nvidia-a10g-tensor-core-gpus/
+		Name:   "g5",
+		Year:   2021,
+		Prefix: GPUPrefix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -749,6 +755,8 @@ func (c InstanceCodePrefix) String() string {
 		return "dense-hdd"
 	case ClusterComputePrefix:
 		return "cluster-compute"
+	case VideoTranscodingPrefix:
+		return "video-transcode"
 	}
 	return fmt.Sprintf("unknown<%x>", int(c))
 }
