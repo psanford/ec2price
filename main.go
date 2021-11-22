@@ -658,6 +658,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2021,
 		Prefix: GPUPrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-r6i-memory-optimized-instances-powered-by-the-latest-generation-intel-xeon-scalable-processors/
+		Name:   "r6i",
+		Year:   2021,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix,
+	},
 }
 
 type InstanceCodePrefix int
