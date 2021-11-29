@@ -672,6 +672,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  AmdSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-g5g-instances-powered-by-aws-graviton2-processors-and-nvidia-t4g-tensor-core-gpus/
+		Name:   "g5g",
+		Year:   2021,
+		Prefix: GPUPrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -696,15 +703,15 @@ const (
 type InstanceCodeSuffix int
 
 const (
-	GravitonSuffix InstanceCodeSuffix = 1 << iota
-	AmdSuffix
-	NVMeSuffix
-	NetworkSuffix
+	GravitonSuffix InstanceCodeSuffix = 1 << iota // 'g'
+	AmdSuffix                                     // 'a'
+	NVMeSuffix                                    // 'd'
+	NetworkSuffix                                 // 'n'
 	GpuNvidiaSuffix
 	GpuAmdSuffix
-	HighFreqSuffix
-	EBSOptimizedSuffix
-	IntelSuffix
+	HighFreqSuffix     // 'z'
+	EBSOptimizedSuffix // 'b'
+	IntelSuffix        // 'i'
 )
 
 func (c InstanceCodeSuffix) String() string {
