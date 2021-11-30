@@ -679,6 +679,14 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: GPUPrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/join-the-preview-amazon-ec2-c7g-instances-powered-by-new-aws-graviton3-processors/
+		// graviton 3
+		Name:   "c7g",
+		Year:   2021,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
