@@ -687,6 +687,26 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: CpuPrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-storage-optimized-amazon-ec2-instances-im4gn-and-is4gen-powered-by-aws-graviton2-processors/
+		Name:   "im4gn",
+		Year:   2021,
+		Prefix: SSDPrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-storage-optimized-amazon-ec2-instances-im4gn-and-is4gen-powered-by-aws-graviton2-processors/
+		Name:   "is4gn",
+		Year:   2021,
+		Prefix: SSDPrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2021/11/amazon-ec2-trn1-instances/
+		Name:   "trn1",
+		Year:   2021,
+		Prefix: InferencePrefix,
+	},
 }
 
 type InstanceCodePrefix int
