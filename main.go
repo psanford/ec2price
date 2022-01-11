@@ -707,6 +707,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2021,
 		Prefix: InferencePrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-hpc6a-instance-optimized-for-high-performance-computing/
+		Name:   "hpc6a",
+		Year:   2022,
+		Prefix: HPCPrefix,
+		Flags:  AmdSuffix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -726,6 +733,7 @@ const (
 	DenseHDDPrefix
 	ClusterComputePrefix
 	VideoTranscodingPrefix
+	HPCPrefix
 )
 
 type InstanceCodeSuffix int
