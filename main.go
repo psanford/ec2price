@@ -714,6 +714,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: HPCPrefix,
 		Flags:  AmdSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2022/01/amazon-ec2-x2iezn/
+		Name:   "x2iezn",
+		Year:   2022,
+		Prefix: XeonScalablePrefix,
+		Flags:  IntelSuffix | NVMeSuffix | HighFreqSuffix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -733,7 +740,8 @@ const (
 	DenseHDDPrefix
 	ClusterComputePrefix
 	VideoTranscodingPrefix
-	HPCPrefix
+	HPCPrefix          // hpc
+	XeonScalablePrefix // X2
 )
 
 type InstanceCodeSuffix int
