@@ -715,11 +715,11 @@ var instanceTypes = []InstanceTypeInfo{
 		Flags:  AmdSuffix,
 	},
 	{
-		// https://aws.amazon.com/about-aws/whats-new/2022/01/amazon-ec2-x2iezn/
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2iezn-instances-powered-by-the-fastest-intel-xeon-scalable-cpu-for-memory-intensive-workloads/
 		Name:   "x2iezn",
 		Year:   2022,
 		Prefix: XeonScalablePrefix,
-		Flags:  IntelSuffix | NVMeSuffix | HighFreqSuffix,
+		Flags:  IntelSuffix | ExtendedMemorySuffix | HighFreqSuffix | NVMeSuffix,
 	},
 }
 
@@ -753,9 +753,10 @@ const (
 	NetworkSuffix                                 // 'n'
 	GpuNvidiaSuffix
 	GpuAmdSuffix
-	HighFreqSuffix     // 'z'
-	EBSOptimizedSuffix // 'b'
-	IntelSuffix        // 'i'
+	HighFreqSuffix       // 'z'
+	EBSOptimizedSuffix   // 'b'
+	IntelSuffix          // 'i'
+	ExtendedMemorySuffix // 'e' in memory optimized families (https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2iezn-instances-powered-by-the-fastest-intel-xeon-scalable-cpu-for-memory-intensive-workloads/)
 )
 
 func (c InstanceCodeSuffix) String() string {
