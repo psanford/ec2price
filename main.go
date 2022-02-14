@@ -721,6 +721,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: XeonScalablePrefix,
 		Flags:  IntelSuffix | ExtendedMemorySuffix | HighFreqSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-c6a-instances-powered-by-3rd-gen-amd-epyc-processors-for-compute-intensive-workloads/
+		Name:   "c6a",
+		Year:   2022,
+		Prefix: CpuPrefix,
+		Flags:  AmdSuffix,
+	},
 }
 
 type InstanceCodePrefix int
