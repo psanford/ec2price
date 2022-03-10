@@ -728,6 +728,20 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: CpuPrefix,
 		Flags:  AmdSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2idn-and-x2iedn-instances-for-memory-intensive-workloads-with-higher-network-bandwidth/
+		Name:   "x2iedn",
+		Year:   2022,
+		Prefix: XeonScalablePrefix,
+		Flags:  IntelSuffix | ExtendedMemorySuffix | NetworkSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2idn-and-x2iedn-instances-for-memory-intensive-workloads-with-higher-network-bandwidth/
+		Name:   "x2idn",
+		Year:   2022,
+		Prefix: XeonScalablePrefix,
+		Flags:  IntelSuffix | NetworkSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
