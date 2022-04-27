@@ -742,6 +742,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: XeonScalablePrefix,
 		Flags:  IntelSuffix | NetworkSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-storage-optimized-amazon-ec2-instances-i4i-powered-by-intel-xeon-scalable-ice-lake-processors/
+		Name:   "i4i",
+		Year:   2022,
+		Prefix: SSDPrefix,
+		Flags:  IntelSuffix,
+	},
 }
 
 type InstanceCodePrefix int
