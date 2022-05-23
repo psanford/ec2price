@@ -851,6 +851,10 @@ func (c InstanceCodePrefix) String() string {
 		return "cluster-compute"
 	case VideoTranscodingPrefix:
 		return "video-transcode"
+	case HPCPrefix:
+		return "hpc"
+	case XeonScalablePrefix:
+		return "xeon"
 	}
 	return fmt.Sprintf("unknown<%x>", int(c))
 }
