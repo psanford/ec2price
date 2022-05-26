@@ -756,6 +756,20 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: GPUPrefix,
 		Flags:  NVMeSuffix | ExtendedMemorySuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6id-and-c6id-instances-with-up-to-7-6-tb-local-nvme-storage/
+		Name:   "c6id",
+		Year:   2022,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6id-and-c6id-instances-with-up-to-7-6-tb-local-nvme-storage/
+		Name:   "m6id",
+		Year:   2022,
+		Prefix: MainPrefix,
+		Flags:  IntelSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
