@@ -749,6 +749,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: SSDPrefix,
 		Flags:  IntelSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2022/05/amazon-ec2-p4de-gpu-instances-ml-training-hpc/
+		Name:   "p4de",
+		Year:   2022,
+		Prefix: GPUPrefix,
+		Flags:  NVMeSuffix | ExtendedMemorySuffix,
+	},
 }
 
 type InstanceCodePrefix int
