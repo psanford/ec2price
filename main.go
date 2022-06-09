@@ -493,7 +493,7 @@ var instanceTypes = []InstanceTypeInfo{
 		Name:   "g4dn",
 		Year:   2019,
 		Prefix: GPUPrefix,
-		Flags:  GpuAmdSuffix,
+		Flags:  GpuNvidiaSuffix,
 	},
 	{
 		Name:   "r5dn",
@@ -575,7 +575,7 @@ var instanceTypes = []InstanceTypeInfo{
 		Name:   "g4ad",
 		Year:   2020,
 		Prefix: GPUPrefix,
-		Flags:  AmdSuffix | NVMeSuffix,
+		Flags:  GpuAmdSuffix,
 	},
 	{
 		Name:   "m5zn",
@@ -703,6 +703,7 @@ var instanceTypes = []InstanceTypeInfo{
 	},
 	{
 		// https://aws.amazon.com/about-aws/whats-new/2021/11/amazon-ec2-trn1-instances/
+		// trn:"Trainium"
 		Name:   "trn1",
 		Year:   2021,
 		Prefix: InferencePrefix,
@@ -770,42 +771,49 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  IntelSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-r6id-instances/
+		Name:   "r6id",
+		Year:   2022,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
 
 const (
-	ArmPrefix InstanceCodePrefix = iota
-	BurstPrefix
-	MainPrefix
-	CpuPrefix
-	MemMorePrefix
-	MemXtremePrefix
-	HighFreqPrefix
-	GPUPrefix
-	InferencePrefix
-	FPGAPrefix
-	SSDPrefix
-	DenseHDDPrefix
-	ClusterComputePrefix
-	VideoTranscodingPrefix
-	HPCPrefix          // hpc
-	XeonScalablePrefix // X2
+	ArmPrefix              InstanceCodePrefix = iota // a
+	BurstPrefix                                      // t
+	MainPrefix                                       // m
+	CpuPrefix                                        // c
+	MemMorePrefix                                    // r
+	MemXtremePrefix                                  // x
+	HighFreqPrefix                                   // z
+	GPUPrefix                                        // p
+	InferencePrefix                                  // inf,trn("Trainium")
+	FPGAPrefix                                       // f
+	SSDPrefix                                        // i
+	DenseHDDPrefix                                   // d
+	ClusterComputePrefix                             // cc,cr
+	VideoTranscodingPrefix                           // vt
+	HPCPrefix                                        // hpc
+	XeonScalablePrefix                               // x2
 )
 
 type InstanceCodeSuffix int
 
 const (
-	GravitonSuffix InstanceCodeSuffix = 1 << iota // 'g'
-	AmdSuffix                                     // 'a'
-	NVMeSuffix                                    // 'd'
-	NetworkSuffix                                 // 'n'
-	GpuNvidiaSuffix
-	GpuAmdSuffix
-	HighFreqSuffix       // 'z'
-	EBSOptimizedSuffix   // 'b'
-	IntelSuffix          // 'i'
-	ExtendedMemorySuffix // 'e' in memory optimized families (https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2iezn-instances-powered-by-the-fastest-intel-xeon-scalable-cpu-for-memory-intensive-workloads/)
+	GravitonSuffix       InstanceCodeSuffix = 1 << iota // 'g'
+	AmdSuffix                                           // 'a'
+	NVMeSuffix                                          // 'd'
+	NetworkSuffix                                       // 'n'
+	GpuNvidiaSuffix                                     // 'dn'
+	GpuAmdSuffix                                        // 'ad'
+	HighFreqSuffix                                      // 'z'
+	EBSOptimizedSuffix                                  // 'b'
+	IntelSuffix                                         // 'i'
+	ExtendedMemorySuffix                                // 'e' in memory optimized families (https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2iezn-instances-powered-by-the-fastest-intel-xeon-scalable-cpu-for-memory-intensive-workloads/)
 )
 
 func (c InstanceCodeSuffix) String() string {
