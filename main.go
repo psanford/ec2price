@@ -778,6 +778,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  IntelSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-r6a-instances-powered-by-3rd-gen-amd-epyc-processors-for-memory-intensive-workloads/
+		Name:   "r6a",
+		Year:   2022,
+		Prefix: MemMorePrefix,
+		Flags:  AmdSuffix,
+	},
 }
 
 type InstanceCodePrefix int
