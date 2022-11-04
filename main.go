@@ -20,10 +20,11 @@ var (
 	indexPath    = "/offers/v1.0/aws/index.json"
 
 	region           = flag.String("region", "us-east-1", "AWS Region")
-	fetchOffers      = flag.Bool("fetch_offers", false, "Fetch offers and price file to disk")
+	fetchOffers      = flag.Bool("fetch-offers", false, "Fetch offers and price file to disk")
 	familyTypes      = flag.Bool("family", false, "Print family type information")
-	checkFamilyTypes = flag.Bool("check_family", false, "Check family types against instance types (for missing types)")
+	checkFamilyTypes = flag.Bool("check-family", false, "Check family types against instance types (for missing types)")
 	csvOutput        = flag.Bool("csv", false, "output as csv")
+	shortTypes       = flag.Bool("short-type", false, "output using short type names")
 )
 
 func main() {
@@ -153,8 +154,13 @@ func main() {
 			}
 		}
 
+		instType := attrs.InstanceType
+		if *shortTypes {
+			instType = shortType(instType)
+		}
+
 		instance := InstanceType{
-			Name:           attrs.InstanceType,
+			Name:           instType,
 			VCPU:           attrs.VCPU,
 			Memory:         mem,
 			Disk:           strings.Replace(attrs.Storage, " SSD", "", 1),
@@ -1099,4 +1105,17 @@ func toS(i interface{}) string {
 	default:
 		return fmt.Sprintf("%+v", i)
 	}
+}
+
+var typeReplacer = strings.NewReplacer(
+	"large", "l",
+	"medium", "m",
+	"metal", "⛁",
+	"micro", "μ",
+	"nano", "n",
+	"small", "s",
+)
+
+func shortType(fullType string) string {
+	return typeReplacer.Replace(fullType)
 }
