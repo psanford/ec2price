@@ -791,6 +791,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  AmdSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2022/11/introducing-amazon-ec2-r7iz-instances/
+		Name:   "r7iz",
+		Year:   2022,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix | HighFreqSuffix,
+	},
 }
 
 type InstanceCodePrefix int
