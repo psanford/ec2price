@@ -793,10 +793,60 @@ var instanceTypes = []InstanceTypeInfo{
 	},
 	{
 		// https://aws.amazon.com/about-aws/whats-new/2022/11/introducing-amazon-ec2-r7iz-instances/
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-instance-types-in-the-works-c7gn-r7iz-and-hpc7g/
 		Name:   "r7iz",
 		Year:   2022,
 		Prefix: MemMorePrefix,
 		Flags:  IntelSuffix | HighFreqSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6id-and-c6id-instances-with-up-to-7-6-tb-local-nvme-storage/
+		Name:   "m6in",
+		Year:   2022,
+		Prefix: MainPrefix,
+		Flags:  IntelSuffix | NetworkSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6id-and-c6id-instances-with-up-to-7-6-tb-local-nvme-storage/
+		Name:   "m6idn",
+		Year:   2022,
+		Prefix: MainPrefix,
+		Flags:  IntelSuffix | NVMeSuffix | NetworkSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6id-and-c6id-instances-with-up-to-7-6-tb-local-nvme-storage/
+		Name:   "c6in",
+		Year:   2022,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix | NetworkSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6id-and-c6id-instances-with-up-to-7-6-tb-local-nvme-storage/
+		Name:   "r6in",
+		Year:   2022,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix | NetworkSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6id-and-c6id-instances-with-up-to-7-6-tb-local-nvme-storage/
+		Name:   "r6idn",
+		Year:   2022,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix | NVMeSuffix | NetworkSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-instance-types-in-the-works-c7gn-r7iz-and-hpc7g/
+		Name:   "c7gn",
+		Year:   2022,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix | NetworkSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-instance-types-in-the-works-c7gn-r7iz-and-hpc7g/
+		Name:   "hpc7g",
+		Year:   2022,
+		Prefix: HPCPrefix,
+		Flags:  GravitonSuffix,
 	},
 }
 
