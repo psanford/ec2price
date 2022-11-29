@@ -848,6 +848,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: HPCPrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-hpc6id-instances-optimized-for-high-performance-computing/
+		Name:   "hpc6id",
+		Year:   2022,
+		Prefix: HPCPrefix,
+		Flags:  IntelSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
