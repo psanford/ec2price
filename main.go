@@ -855,6 +855,20 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: HPCPrefix,
 		Flags:  IntelSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-graviton3-based-general-purpose-m7g-and-memory-optimized-r7g-amazon-ec2-instances
+		Name:   "m7g",
+		Year:   2023,
+		Prefix: MainPrefix,
+		Flags:  GravitonSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-graviton3-based-general-purpose-m7g-and-memory-optimized-r7g-amazon-ec2-instances
+		Name:   "r7g",
+		Year:   2023,
+		Prefix: MemMorePrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
