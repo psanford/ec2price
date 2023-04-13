@@ -869,6 +869,12 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/amazon-ec2-inf2-instances-for-low-cost-high-performance-generative-ai-inference-are-now-generally-available/
+		Name:   "inf2",
+		Year:   2023,
+		Prefix: InferencePrefix,
+	},
 }
 
 type InstanceCodePrefix int
