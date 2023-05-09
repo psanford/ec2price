@@ -875,6 +875,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2023,
 		Prefix: InferencePrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-storage-optimized-amazon-ec2-i4g-instances-graviton-processors-and-aws-nitro-ssds/
+		Name:   "i4g",
+		Year:   2023,
+		Prefix: SSDPrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
