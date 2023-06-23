@@ -24,7 +24,7 @@ var (
 	fetchOffers      = flag.Bool("fetch-offers", false, "Fetch offers and price file to disk")
 	familyTypes      = flag.Bool("family", false, "Print family type information")
 	checkFamilyTypes = flag.Bool("check-family", false, "Check family types against instance types (for missing types)")
-	csvOutput        = flag.Bool("csv", false, "output as csv")
+	outFormat        = flag.String("format", "col", "output format: (col|csv|json")
 	shortTypes       = flag.Bool("short-type", false, "output using short type names")
 )
 
@@ -140,19 +140,9 @@ func main() {
 		memS = strings.ReplaceAll(memS, ",", "")
 		mem, _ := strconv.ParseFloat(memS, 64)
 
-		diskTotal := 0
-		if attrs.Storage != "EBS only" {
-			parts := strings.Split(attrs.Storage, " ")
-			if len(parts) == 1 {
-				diskTotal, _ = strconv.Atoi(parts[0])
-			} else if len(parts) > 2 {
-				if parts[1] == "x" {
-					count, _ := strconv.Atoi(parts[0])
-					size, _ := strconv.Atoi(strings.ReplaceAll(parts[2], ",", ""))
-					diskTotal = count * size
-				}
-
-			}
+		disk, err := parseStorage(attrs.Storage)
+		if err != nil {
+			log.Printf("parse storage err: %s", err)
 		}
 
 		instType := attrs.InstanceType
@@ -169,13 +159,12 @@ func main() {
 			Name:           instType,
 			VCPU:           attrs.VCPU,
 			Memory:         mem,
-			Disk:           strings.Replace(attrs.Storage, " SSD", "", 1),
-			DiskTotal:      diskTotal,
+			Disk:           disk,
 			Hourly:         hourly,
 			OnDemandAnnual: onDemandCost,
 			ReservedAnnual: reservedAnnual,
 			CPUMfgr:        mfgrFromString(attrs.PhysicalProcessor),
-			NetworkPerf:    np.String(),
+			NetworkPerf:    np,
 		}
 
 		family := strings.SplitN(attrs.InstanceType, ".", 2)[0]
@@ -191,9 +180,9 @@ func main() {
 
 	sort.Slice(instances, func(a, b int) bool { return instances[a].OnDemandAnnual < instances[b].OnDemandAnnual })
 
-	fieldNames := []string{"type", "mem", "vcpu", "disk", "dsk", "mfg", "net", "hourly", "annual", "annual-reserved"}
+	fieldNames := []string{"type", "mem", "vcpu", "disk", "mfg", "net", "hourly", "annual", "annual-reserved"}
 
-	if *csvOutput {
+	if *outFormat == "csv" {
 		w := csv.NewWriter(os.Stdout)
 		w.Write(fieldNames)
 		for _, in := range instances {
@@ -202,7 +191,6 @@ func main() {
 				toS(in.Memory),
 				toS(in.VCPU),
 				toS(in.Disk),
-				toS(in.DiskTotal),
 				toS(in.CPUMfgr),
 				toS(in.NetworkPerf),
 				toS(in.Hourly),
@@ -212,17 +200,24 @@ func main() {
 		}
 		w.Flush()
 		return
+	} else if *outFormat == "json" {
+		w := json.NewEncoder(os.Stdout)
+		w.SetIndent("", "  ")
+		for _, in := range instances {
+			w.Encode(in)
+		}
+		return
 	}
 
-	format := "%15s %10.01f %6s %15s %5d %3s %6s %9.04f %9.02f %.2f\n"
+	format := "%15s %10.01f %6s %15s %3s %6s %9.04f %9.02f %.2f\n"
 	var fieldNamesI []interface{} = make([]interface{}, len(fieldNames))
 	for i, d := range fieldNames {
 		fieldNamesI[i] = d
 	}
-	fmt.Printf("%15s %10s %6s %15s %5s %3s %6s %9s %9s %s\n", fieldNamesI...)
+	fmt.Printf("%15s %10s %6s %15s %3s %6s %9s %9s %s\n", fieldNamesI...)
 
 	for _, in := range instances {
-		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.DiskTotal, in.CPUMfgr, in.NetworkPerf, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
+		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.CPUMfgr, in.NetworkPerf, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
 	}
 
 	if *checkFamilyTypes {
@@ -1071,14 +1066,13 @@ type InstanceType struct {
 	VCPU           string
 	Memory         float64
 	SSD            bool
-	Disk           string
-	DiskTotal      int
+	Disk           Disk
 	Hourly         float64
 	OnDemandAnnual float64
 	ReservedAnnual float64
 	CPUMfgr        CPUManufacturer
 	CurrentGen     string
-	NetworkPerf    string
+	NetworkPerf    NetworkPerf
 }
 
 func checkErr(err error, msg string) {
@@ -1286,4 +1280,69 @@ func parseNetPerf(n string) (NetworkPerf, error) {
 	}
 
 	return NetworkPerf{}, fmt.Errorf("failed to parse network perf: %q", n)
+}
+
+type Disk struct {
+	Count     int // count 0 means EBSOnly
+	PerDiskGB int
+	SSD       bool
+	NVMe      bool
+}
+
+func (d Disk) String() string {
+	if d.Count == 0 {
+		return "EBS"
+	}
+	suffix := "GB"
+	total := d.Count * d.PerDiskGB
+	if total > 1000*1000 {
+		suffix = "PB"
+		total /= 1000 * 1000
+	} else if total > 1000 {
+		suffix = "TB"
+		total /= 1000
+	}
+
+	typ := "HDD"
+	if d.NVMe {
+		typ = "NVMe"
+	} else if d.SSD {
+		typ = "SSD"
+	}
+
+	return fmt.Sprintf("%d%s-%s", total, suffix, typ)
+}
+
+var diskRE = regexp.MustCompile(`(?:(\d+) x )?(\d+)(?: GB)?( NVMe)? (SSD|HDD)`)
+
+func parseStorage(s string) (Disk, error) {
+	var d Disk
+	if s == "EBS only" {
+		return d, nil
+	}
+
+	m := diskRE.FindStringSubmatch(s)
+
+	if len(m) < 1 {
+		return d, fmt.Errorf("parse storage fail for %q", s)
+	}
+
+	d.Count = 1
+
+	if m[1] != "" {
+		d.Count, _ = strconv.Atoi(m[1])
+	}
+
+	d.PerDiskGB, _ = strconv.Atoi(m[2])
+
+	if m[3] != "" {
+		d.NVMe = true
+		d.SSD = true
+	}
+
+	if m[4] == "SSD" {
+		d.SSD = true
+	}
+
+	return d, nil
 }
