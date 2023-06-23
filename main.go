@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -159,6 +160,11 @@ func main() {
 			instType = shortType(instType)
 		}
 
+		np, err := parseNetPerf(attrs.NetworkPerformance)
+		if err != nil {
+			log.Print(err)
+		}
+
 		instance := InstanceType{
 			Name:           instType,
 			VCPU:           attrs.VCPU,
@@ -169,6 +175,7 @@ func main() {
 			OnDemandAnnual: onDemandCost,
 			ReservedAnnual: reservedAnnual,
 			CPUMfgr:        mfgrFromString(attrs.PhysicalProcessor),
+			NetworkPerf:    np.String(),
 		}
 
 		family := strings.SplitN(attrs.InstanceType, ".", 2)[0]
@@ -184,7 +191,7 @@ func main() {
 
 	sort.Slice(instances, func(a, b int) bool { return instances[a].OnDemandAnnual < instances[b].OnDemandAnnual })
 
-	fieldNames := []string{"type", "mem", "vcpu", "disk", "dsk", "mfg", "hourly", "annual", "annual-reserved"}
+	fieldNames := []string{"type", "mem", "vcpu", "disk", "dsk", "mfg", "net", "hourly", "annual", "annual-reserved"}
 
 	if *csvOutput {
 		w := csv.NewWriter(os.Stdout)
@@ -197,6 +204,7 @@ func main() {
 				toS(in.Disk),
 				toS(in.DiskTotal),
 				toS(in.CPUMfgr),
+				toS(in.NetworkPerf),
 				toS(in.Hourly),
 				toS(in.OnDemandAnnual),
 				toS(in.ReservedAnnual),
@@ -206,15 +214,15 @@ func main() {
 		return
 	}
 
-	format := "%15s %10.01f %6s %15s %5d %3s %9.04f %9.02f %.2f\n"
+	format := "%15s %10.01f %6s %15s %5d %3s %6s %9.04f %9.02f %.2f\n"
 	var fieldNamesI []interface{} = make([]interface{}, len(fieldNames))
 	for i, d := range fieldNames {
 		fieldNamesI[i] = d
 	}
-	fmt.Printf("%15s %10s %6s %15s %5s %3s %9s %9s %s\n", fieldNamesI...)
+	fmt.Printf("%15s %10s %6s %15s %5s %3s %6s %9s %9s %s\n", fieldNamesI...)
 
 	for _, in := range instances {
-		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.DiskTotal, in.CPUMfgr, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
+		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.DiskTotal, in.CPUMfgr, in.NetworkPerf, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
 	}
 
 	if *checkFamilyTypes {
@@ -1070,6 +1078,7 @@ type InstanceType struct {
 	ReservedAnnual float64
 	CPUMfgr        CPUManufacturer
 	CurrentGen     string
+	NetworkPerf    string
 }
 
 func checkErr(err error, msg string) {
@@ -1209,4 +1218,72 @@ var typeReplacer = strings.NewReplacer(
 
 func shortType(fullType string) string {
 	return typeReplacer.Replace(fullType)
+}
+
+type NetworkPerf struct {
+	CapGb    float64
+	Bursting bool
+}
+
+func (np NetworkPerf) String() string {
+	var burstIndicator string
+
+	if np.Bursting {
+		burstIndicator = "*"
+	}
+	return fmt.Sprintf("%0.1f%s", np.CapGb, burstIndicator)
+}
+
+var netPerfRE = regexp.MustCompile(`(Up to )?(\d+) (Gigabit|Megabit)`)
+
+func parseNetPerf(n string) (NetworkPerf, error) {
+	var perf NetworkPerf
+
+	m := netPerfRE.FindStringSubmatch(n)
+	if len(m) > 0 {
+
+		nStr := m[2]
+		f, _ := strconv.ParseFloat(nStr, 64)
+		if m[3] == "Megabit" {
+			f = f / 1000
+		}
+
+		perf.CapGb = f
+		if m[1] != "" {
+			perf.Bursting = true
+		}
+
+		return perf, nil
+	}
+
+	words := map[string]NetworkPerf{
+		"Very Low": {
+			CapGb:    0.01,
+			Bursting: true,
+		},
+		"High": {
+			CapGb: 1,
+		},
+		"Low": {
+			CapGb:    0.01,
+			Bursting: true,
+		},
+		"Low to Moderate": {
+			CapGb:    0.01,
+			Bursting: true,
+		},
+		"Moderate": {
+			CapGb:    0.1,
+			Bursting: true,
+		},
+		"NA": {
+			CapGb: 1,
+		},
+	}
+
+	if match, found := words[n]; found {
+		return match, nil
+	}
+
+	return NetworkPerf{}, fmt.Errorf("failed to parse network perf: %q", n)
 }
