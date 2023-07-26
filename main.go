@@ -885,6 +885,12 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: SSDPrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-p5-instances-powered-by-nvidia-h100-tensor-core-gpus-for-accelerating-generative-ai-and-hpc-applications/
+		Name:   "p5",
+		Year:   2023,
+		Prefix: GPUPrefix,
+	},
 }
 
 type InstanceCodePrefix int
