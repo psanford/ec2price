@@ -891,6 +891,27 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2023,
 		Prefix: GPUPrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-instances-c7gd-m7gd-and-r7gd-powered-by-aws-graviton3-processor-with-local-nvme-based-ssd-storage/
+		Name:   "c7gd",
+		Year:   2023,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-instances-c7gd-m7gd-and-r7gd-powered-by-aws-graviton3-processor-with-local-nvme-based-ssd-storage/
+		Name:   "m7gd",
+		Year:   2023,
+		Prefix: MainPrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-instances-c7gd-m7gd-and-r7gd-powered-by-aws-graviton3-processor-with-local-nvme-based-ssd-storage/
+		Name:   "r7gd",
+		Year:   2023,
+		Prefix: MemMorePrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
