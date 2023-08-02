@@ -912,6 +912,20 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  GravitonSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-seventh-generation-general-purpose-amazon-ec2-instances-m7i-flex-and-m7i/
+		Name:   "m7i",
+		Year:   2023,
+		Prefix: MainPrefix,
+		Flags:  IntelSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-seventh-generation-general-purpose-amazon-ec2-instances-m7i-flex-and-m7i/
+		Name:   "m7i-flex",
+		Year:   2023,
+		Prefix: MainPrefix,
+		Flags:  IntelSuffix | FlexSuffix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -948,6 +962,7 @@ const (
 	EBSOptimizedSuffix                                  // 'b'
 	IntelSuffix                                         // 'i'
 	ExtendedMemorySuffix                                // 'e' in memory optimized families (https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2iezn-instances-powered-by-the-fastest-intel-xeon-scalable-cpu-for-memory-intensive-workloads/)
+	FlexSuffix                                          // 'flex'
 )
 
 func (c InstanceCodeSuffix) String() string {
@@ -979,6 +994,12 @@ func (c InstanceCodeSuffix) String() string {
 	}
 	if c&IntelSuffix == IntelSuffix {
 		parts = append(parts, "intel")
+	}
+	if c&ExtendedMemorySuffix == ExtendedMemorySuffix {
+		parts = append(parts, "extend-mem")
+	}
+	if c&FlexSuffix == FlexSuffix {
+		parts = append(parts, "flex")
 	}
 
 	return strings.Join(parts, ",")
