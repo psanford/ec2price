@@ -208,13 +208,12 @@ func main() {
 		}
 		return
 	}
-
-	format := "%15s %10.01f %6s %15s %3s %6s %9.04f %9.02f %.2f\n"
+	format := "%17s %10.01f %6s %15s %3s %6s %9.04f %9.02f %.2f\n"
 	var fieldNamesI []interface{} = make([]interface{}, len(fieldNames))
 	for i, d := range fieldNames {
 		fieldNamesI[i] = d
 	}
-	fmt.Printf("%15s %10s %6s %15s %3s %6s %9s %9s %s\n", fieldNamesI...)
+	fmt.Printf("%17s %10s %6s %15s %3s %6s %9s %9s %s\n", fieldNamesI...)
 
 	for _, in := range instances {
 		fmt.Printf(format, in.Name, in.Memory, in.VCPU, in.Disk, in.CPUMfgr, in.NetworkPerf, in.Hourly, in.OnDemandAnnual, in.ReservedAnnual)
