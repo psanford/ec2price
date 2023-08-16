@@ -925,6 +925,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  IntelSuffix | FlexSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-m7a-general-purpose-instances-powered-by-4th-gen-amd-epyc-processors/
+		Name:   "m7a",
+		Year:   2023,
+		Prefix: MainPrefix,
+		Flags:  AmdSuffix,
+	},
 }
 
 type InstanceCodePrefix int
