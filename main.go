@@ -939,6 +939,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: HPCPrefix,
 		Flags:  AmdSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-r7a-instances-powered-by-4th-gen-amd-epyc-processors-for-memory-optimized-workloads/
+		Name:   "r7a",
+		Year:   2023,
+		Prefix: MemMorePrefix,
+		Flags:  AmdSuffix,
+	},
 }
 
 type InstanceCodePrefix int
