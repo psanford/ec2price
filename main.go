@@ -946,6 +946,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  AmdSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2023/09/amazon-ec2-c7i-instances/
+		Name:   "c7i",
+		Year:   2023,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix,
+	},
 }
 
 type InstanceCodePrefix int
