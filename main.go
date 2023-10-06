@@ -953,6 +953,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: CpuPrefix,
 		Flags:  IntelSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-c7a-instances-powered-by-4th-gen-amd-epyc-processors-for-compute-optimized-workloads/
+		Name:   "c7a",
+		Year:   2023,
+		Prefix: CpuPrefix,
+		Flags:  AmdSuffix,
+	},
 }
 
 type InstanceCodePrefix int
