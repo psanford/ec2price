@@ -967,6 +967,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  IntelSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/introducing-amazon-ec2-high-memory-u7i-instances-for-large-in-memory-databases-preview/
+		Name:   "u7i",
+		Year:   2023,
+		Prefix: MemUltraPrefix,
+		Flags:  IntelSuffix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -988,6 +995,7 @@ const (
 	VideoTranscodingPrefix                           // vt
 	HPCPrefix                                        // hpc
 	XeonScalablePrefix                               // x2
+	MemUltraPrefix                                   // u
 )
 
 type InstanceCodeSuffix int
@@ -1080,6 +1088,8 @@ func (c InstanceCodePrefix) String() string {
 		return "hpc"
 	case XeonScalablePrefix:
 		return "xeon"
+	case MemUltraPrefix:
+		return "mem-ultra"
 	}
 	return fmt.Sprintf("unknown<%x>", int(c))
 }
