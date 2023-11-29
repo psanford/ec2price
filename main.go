@@ -974,6 +974,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemUltraPrefix,
 		Flags:  IntelSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/join-the-preview-for-new-memory-optimized-aws-graviton4-powered-amazon-ec2-instances-r8g/
+		Name:   "r8g",
+		Year:   2023,
+		Prefix: MemMorePrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
