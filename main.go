@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
@@ -47,7 +46,7 @@ func main() {
 	checkErr(err, "Get index")
 
 	if r.StatusCode != 200 {
-		b, _ := ioutil.ReadAll(r.Body)
+		b, _ := io.ReadAll(r.Body)
 		log.Fatalf("Get index status %d\n%s", r.StatusCode, b)
 	}
 
@@ -64,7 +63,7 @@ func main() {
 	checkErr(err, "Get region index")
 
 	if r.StatusCode != 200 {
-		b, _ := ioutil.ReadAll(r.Body)
+		b, _ := io.ReadAll(r.Body)
 		log.Fatalf("Get region index status %d\n%s", r.StatusCode, b)
 	}
 
@@ -81,7 +80,7 @@ func main() {
 	checkErr(err, "Get prices")
 
 	if r.StatusCode != 200 {
-		b, _ := ioutil.ReadAll(r.Body)
+		b, _ := io.ReadAll(r.Body)
 		log.Fatalf("Get prices status %d\n%s", r.StatusCode, b)
 	}
 
