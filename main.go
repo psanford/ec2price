@@ -980,6 +980,12 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2024/04/general-availability-amazon-ec2-g6-instances/
+		Name:   "g6",
+		Year:   2024,
+		Prefix: GPUPrefix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -992,7 +998,7 @@ const (
 	MemMorePrefix                                    // r
 	MemXtremePrefix                                  // x
 	HighFreqPrefix                                   // z
-	GPUPrefix                                        // p
+	GPUPrefix                                        // p,g
 	InferencePrefix                                  // inf,trn("Trainium")
 	FPGAPrefix                                       // f
 	SSDPrefix                                        // i
