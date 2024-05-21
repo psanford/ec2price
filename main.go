@@ -986,6 +986,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2024,
 		Prefix: GPUPrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-compute-optimized-c7i-flex-amazon-ec2-flex-instances/
+		Name:   "c7i-flex",
+		Year:   2024,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix | FlexSuffix,
+	},
 }
 
 type InstanceCodePrefix int
