@@ -993,6 +993,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: CpuPrefix,
 		Flags:  IntelSuffix | FlexSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/now-available-graviton4-powered-memory-optimized-amazon-ec2-x8g-instances/
+		Name:   "x8g",
+		Year:   2024,
+		Prefix: MemXtremePrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
