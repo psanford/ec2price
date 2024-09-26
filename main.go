@@ -1000,6 +1000,20 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemXtremePrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/run-your-compute-intensive-and-general-purpose-workloads-sustainably-with-the-new-amazon-ec2-c8g-m8g-instances/
+		Name:   "c8g",
+		Year:   2024,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/run-your-compute-intensive-and-general-purpose-workloads-sustainably-with-the-new-amazon-ec2-c8g-m8g-instances/
+		Name:   "m8g",
+		Year:   2024,
+		Prefix: MainPrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
