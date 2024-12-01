@@ -1014,6 +1014,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/introducing-storage-optimized-amazon-ec2-i8g-instances-powered-by-aws-graviton4-processors-and-3rd-gen-aws-nitro-ssds/
+		Name:   "i8g",
+		Year:   2024,
+		Prefix: SSDPrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
