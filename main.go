@@ -1037,9 +1037,15 @@ var instanceTypes = []InstanceTypeInfo{
 	{
 		// https://aws.amazon.com/about-aws/whats-new/2024/12/amazon-ec2-p5en-instances-generative-ai-hpc-generally-available/
 		Name:   "p5en",
-		Year:   2023,
+		Year:   2024,
 		Prefix: GPUPrefix,
 		Flags:  NetworkSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/amazon-ec2-trn2-instances-and-trn2-ultraservers-for-aiml-training-and-inference-is-now-available/
+		Name:   "trn2",
+		Year:   2024,
+		Prefix: InferencePrefix,
 	},
 }
 
