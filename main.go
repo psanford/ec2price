@@ -994,6 +994,12 @@ var instanceTypes = []InstanceTypeInfo{
 		Flags:  IntelSuffix | FlexSuffix,
 	},
 	{
+		// https://aws.amazon.com/blogs/machine-learning/amazon-ec2-p5e-instances-are-generally-available/
+		Name:   "p5e",
+		Year:   2024,
+		Prefix: GPUPrefix,
+	},
+	{
 		// https://aws.amazon.com/blogs/aws/now-available-graviton4-powered-memory-optimized-amazon-ec2-x8g-instances/
 		Name:   "x8g",
 		Year:   2024,
@@ -1027,6 +1033,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2024,
 		Prefix: SSDPrefix,
 		Flags:  GravitonSuffix,
+	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2024/12/amazon-ec2-p5en-instances-generative-ai-hpc-generally-available/
+		Name:   "p5en",
+		Year:   2023,
+		Prefix: GPUPrefix,
+		Flags:  NetworkSuffix,
 	},
 }
 
