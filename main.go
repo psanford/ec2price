@@ -1047,6 +1047,12 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2024,
 		Prefix: InferencePrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/now-available-second-generation-fpga-powered-amazon-ec2-instances-f2/
+		Name:   "f2",
+		Year:   2024,
+		Prefix: FPGAPrefix,
+	},
 }
 
 type InstanceCodePrefix int
