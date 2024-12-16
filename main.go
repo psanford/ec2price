@@ -974,6 +974,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Flags:  IntelSuffix,
 	},
 	{
+		// https://aws.amazon.com/blogs/aws/introducing-amazon-ec2-high-memory-u7i-instances-for-large-in-memory-databases-preview/
+		Name:   "u7in",
+		Year:   2023,
+		Prefix: MemUltraPrefix,
+		Flags:  IntelSuffix | NetworkSuffix,
+	},
+	{
 		// https://aws.amazon.com/blogs/aws/join-the-preview-for-new-memory-optimized-aws-graviton4-powered-amazon-ec2-instances-r8g/
 		Name:   "r8g",
 		Year:   2023,
@@ -1053,6 +1060,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2024,
 		Prefix: FPGAPrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-high-memory-u7inh-instance-on-hpe-server-for-large-in-memory-databases/
+		Name:   "u7inh",
+		Year:   2024,
+		Prefix: MemUltraPrefix,
+		Flags:  IntelSuffix | NetworkSuffix | HpeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
@@ -1091,6 +1105,7 @@ const (
 	IntelSuffix                                         // 'i'
 	ExtendedMemorySuffix                                // 'e' in memory optimized families (https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2iezn-instances-powered-by-the-fastest-intel-xeon-scalable-cpu-for-memory-intensive-workloads/)
 	FlexSuffix                                          // 'flex'
+	HpeSuffix                                           // 'h'
 )
 
 func (c InstanceCodeSuffix) String() string {
