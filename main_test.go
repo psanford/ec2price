@@ -1367,6 +1367,40 @@ func TestParseStorage(t *testing.T) {
 			in:  "EBS only",
 			out: Disk{},
 		},
+		{
+			// i8g
+			in: "6 x 3750GB",
+			out: Disk{
+				Count:     6,
+				PerDiskGB: 3750,
+				SSD:       true,
+			},
+		},
+		{
+			in: "1 x 468GB",
+			out: Disk{
+				Count:     1,
+				PerDiskGB: 468,
+				SSD:       true,
+			},
+		},
+		{
+			in: "2 x 3750GB",
+			out: Disk{
+				Count:     2,
+				PerDiskGB: 3750,
+				SSD:       true,
+			},
+		},
+		{
+			in: "4 X 940 GB NVMe SSD",
+			out: Disk{
+				Count:     4,
+				PerDiskGB: 940,
+				SSD:       true,
+				NVMe:      true,
+			},
+		},
 	}
 
 	for _, tc := range cases {

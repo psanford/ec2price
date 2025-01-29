@@ -141,7 +141,7 @@ func main() {
 
 		disk, err := parseStorage(attrs.Storage)
 		if err != nil {
-			log.Printf("parse storage err: %s", err)
+			log.Printf("parse storage for %s err: %s", attrs.InstanceType, err)
 		}
 
 		instType := attrs.InstanceType
@@ -1506,7 +1506,7 @@ func (d Disk) String() string {
 	return fmt.Sprintf("%d%s-%s", total, suffix, typ)
 }
 
-var diskRE = regexp.MustCompile(`(?:(\d+) x )?(\d+)(?: GB)?( NVMe)? (SSD|HDD)`)
+var diskRE = regexp.MustCompile(`(?i)(?:(\d+) x )?(\d+)(?:GB| GB)?( NVMe)?(?: (SSD|HDD))?`)
 
 func parseStorage(s string) (Disk, error) {
 	var d Disk
@@ -1533,7 +1533,8 @@ func parseStorage(s string) (Disk, error) {
 		d.SSD = true
 	}
 
-	if m[4] == "SSD" {
+	// If type is specified as SSD or if GB is present without type (i8g's do this)
+	if m[4] == "SSD" || (m[4] == "" && strings.Contains(s, "GB")) {
 		d.SSD = true
 	}
 
