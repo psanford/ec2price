@@ -1067,6 +1067,27 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemUltraPrefix,
 		Flags:  IntelSuffix | NetworkSuffix | HpeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-graviton4-based-instances-with-nvme-ssd-storage/
+		Name:   "c8gd",
+		Year:   2025,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-graviton4-based-instances-with-nvme-ssd-storage/
+		Name:   "m8gd",
+		Year:   2025,
+		Prefix: MainPrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-graviton4-based-instances-with-nvme-ssd-storage/
+		Name:   "r8gd",
+		Year:   2025,
+		Prefix: MemMorePrefix,
+		Flags:  GravitonSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
