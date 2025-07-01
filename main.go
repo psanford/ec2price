@@ -1088,6 +1088,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  GravitonSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-c8gn-instances-powered-by-aws-graviton4-offering-up-to-600gbps-network-bandwidth/
+		Name:   "c8gn",
+		Year:   2025,
+		Prefix: CpuPrefix,
+		Flags:  GravitonSuffix | NetworkSuffix,
+	},
 }
 
 type InstanceCodePrefix int
