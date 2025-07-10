@@ -1095,6 +1095,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: CpuPrefix,
 		Flags:  GravitonSuffix | NetworkSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-amazon-ec2-p6e-gb200-ultraservers-powered-by-nvidia-grace-blackwell-gpus-for-the-highest-ai-performance/
+		Name:   "p6e",
+		Year:   2025,
+		Prefix: GPUPrefix,
+		Flags:  ExtendedMemorySuffix,
+	},
 }
 
 type InstanceCodePrefix int
