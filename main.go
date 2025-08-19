@@ -1102,6 +1102,20 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: GPUPrefix,
 		Flags:  ExtendedMemorySuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/best-performance-and-fastest-memory-with-the-new-amazon-ec2-r8i-and-r8i-flex-instances/
+		Name:   "r8i",
+		Year:   2025,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/best-performance-and-fastest-memory-with-the-new-amazon-ec2-r8i-and-r8i-flex-instances/
+		Name:   "r8i-flex",
+		Year:   2025,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix | FlexSuffix,
+	},
 }
 
 type InstanceCodePrefix int
