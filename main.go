@@ -1130,6 +1130,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  IntelSuffix | FlexSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2025/09/amazon-ec2-r8gb-instances/
+		Name:   "r8gb",
+		Year:   2025,
+		Prefix: MemMorePrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
