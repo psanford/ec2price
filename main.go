@@ -1137,6 +1137,20 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/introducing-new-compute-optimized-amazon-ec2-c8i-and-c8i-flex-instances/
+		Name:   "c8i",
+		Year:   2025,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/introducing-new-compute-optimized-amazon-ec2-c8i-and-c8i-flex-instances/
+		Name:   "c8i-flex",
+		Year:   2025,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix | FlexSuffix,
+	},
 }
 
 type InstanceCodePrefix int
