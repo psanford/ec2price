@@ -1151,6 +1151,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: CpuPrefix,
 		Flags:  IntelSuffix | FlexSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-general-purpose-amazon-ec2-m8a-instances-are-now-available/
+		Name:   "m8a",
+		Year:   2024,
+		Prefix: MainPrefix,
+		Flags:  AmdSuffix,
+	},
 }
 
 type InstanceCodePrefix int
