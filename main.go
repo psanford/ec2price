@@ -1154,8 +1154,15 @@ var instanceTypes = []InstanceTypeInfo{
 	{
 		// https://aws.amazon.com/blogs/aws/new-general-purpose-amazon-ec2-m8a-instances-are-now-available/
 		Name:   "m8a",
-		Year:   2024,
+		Year:   2025,
 		Prefix: MainPrefix,
+		Flags:  AmdSuffix,
+	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2025/11/memory-optimized-amazon-ec2-r8a-instances/
+		Name:   "r8a",
+		Year:   2025,
+		Prefix: MemMorePrefix,
 		Flags:  AmdSuffix,
 	},
 }
