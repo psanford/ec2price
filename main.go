@@ -1165,6 +1165,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  AmdSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-aws-billing-transfer-for-centrally-managing-aws-billing-and-costs-across-multiple-organizations/
+		Name:   "P6-B300",
+		Year:   2025,
+		Prefix: GPUPrefix,
+		Flags:  GpuNvidiaSuffix,
+	},
 }
 
 type InstanceCodePrefix int
