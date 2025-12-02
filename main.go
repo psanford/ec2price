@@ -1172,6 +1172,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: GPUPrefix,
 		Flags:  GpuNvidiaSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/introducing-amazon-ec2-x8aedz-instances-powered-by-5th-gen-amd-epyc-processors-for-memory-intensive-workloads/
+		Name:   "x8aedz",
+		Year:   2025,
+		Prefix: MemXtremePrefix,
+		Flags:  AmdSuffix | ExtendedMemorySuffix | NVMeSuffix | HighFreqSuffix,
+	},
 }
 
 type InstanceCodePrefix int
