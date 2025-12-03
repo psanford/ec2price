@@ -1414,3 +1414,13 @@ func TestParseStorage(t *testing.T) {
 	}
 
 }
+
+func TestNoDuplicateInstanceTypes(t *testing.T) {
+	seen := make(map[string]bool)
+	for _, it := range instanceTypes {
+		if seen[it.Name] {
+			t.Errorf("duplicate instance type: %s", it.Name)
+		}
+		seen[it.Name] = true
+	}
+}

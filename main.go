@@ -1179,6 +1179,27 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemXtremePrefix,
 		Flags:  AmdSuffix | ExtendedMemorySuffix | NVMeSuffix | HighFreqSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2025/12/compute-optimized-amazon-ec2-c8a-instances/
+		Name:   "c8a",
+		Year:   2025,
+		Prefix: CpuPrefix,
+		Flags:  AmdSuffix,
+	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2025/12/amazon-ec2-x8i-instances-preview/
+		Name:   "x8i",
+		Year:   2025,
+		Prefix: MemXtremePrefix,
+		Flags:  IntelSuffix,
+	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2025/12/aws-amazon-ec2-m8azn-preview/
+		Name:   "m8azn",
+		Year:   2025,
+		Prefix: MainPrefix,
+		Flags:  AmdSuffix | HighFreqSuffix | NetworkSuffix,
+	},
 }
 
 type InstanceCodePrefix int
