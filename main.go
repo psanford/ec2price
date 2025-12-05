@@ -1200,6 +1200,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  AmdSuffix | HighFreqSuffix | NetworkSuffix,
 	},
+	{
+		// https://aws.amazon.com/about-aws/whats-new/2025/12/ec2-m9g-instances-graviton5-processors-preview/
+		Name:   "m9g",
+		Year:   2025,
+		Prefix: MainPrefix,
+		Flags:  GravitonSuffix,
+	},
 }
 
 type InstanceCodePrefix int
