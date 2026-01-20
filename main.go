@@ -1207,6 +1207,13 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MainPrefix,
 		Flags:  GravitonSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/announcing-amazon-ec2-g7e-instances-accelerated-by-nvidia-rtx-pro-6000-blackwell-server-edition-gpus/
+		Name:   "g7e",
+		Year:   2026,
+		Prefix: GPUPrefix,
+		Flags:  ExtendedMemorySuffix,
+	},
 }
 
 type InstanceCodePrefix int
