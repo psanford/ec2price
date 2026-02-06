@@ -1214,6 +1214,27 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: GPUPrefix,
 		Flags:  ExtendedMemorySuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/
+		Name:   "c8id",
+		Year:   2026,
+		Prefix: CpuPrefix,
+		Flags:  IntelSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/
+		Name:   "m8id",
+		Year:   2026,
+		Prefix: MainPrefix,
+		Flags:  IntelSuffix | NVMeSuffix,
+	},
+	{
+		// https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/
+		Name:   "r8id",
+		Year:   2026,
+		Prefix: MemMorePrefix,
+		Flags:  IntelSuffix | NVMeSuffix,
+	},
 }
 
 type InstanceCodePrefix int
