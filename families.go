@@ -983,4 +983,10 @@ var instanceTypes = []InstanceTypeInfo{
 		Prefix: MemMorePrefix,
 		Flags:  IntelSuffix | NVMeSuffix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/announcing-amazon-ec2-g7-instances-accelerated-by-nvidia-rtx-pro-4500-blackwell-server-edition-gpus/
+		Name:   "g7",
+		Year:   2026,
+		Prefix: GPUPrefix,
+	},
 }

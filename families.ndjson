@@ -154,3 +154,4 @@
 {"name":"c8id","year":2026,"prefix":"CpuPrefix","flags":["IntelSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/"}
 {"name":"m8id","year":2026,"prefix":"MainPrefix","flags":["IntelSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/"}
 {"name":"r8id","year":2026,"prefix":"MemMorePrefix","flags":["IntelSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/"}
+{"name":"g7","year":2026,"prefix":"GPUPrefix","url":"https://aws.amazon.com/blogs/aws/announcing-amazon-ec2-g7-instances-accelerated-by-nvidia-rtx-pro-4500-blackwell-server-edition-gpus/"}
