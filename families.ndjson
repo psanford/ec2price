@@ -39,6 +39,7 @@
 {"name":"c5n","year":2018,"prefix":"CpuPrefix","flags":["NetworkSuffix"]}
 {"name":"a1","year":2018,"prefix":"ArmPrefix"}
 {"name":"p3dn","year":2018,"prefix":"GPUPrefix","flags":["NVMeSuffix","NetworkSuffix"]}
+{"name":"u","year":2018,"prefix":"MemUltraPrefix","url":"https://aws.amazon.com/blogs/aws/now-available-amazon-ec2-high-memory-instances-with-6-9-and-12-tb-of-memory-perfect-for-sap-hana/\n18TB and 24TB followed in 2019: https://aws.amazon.com/blogs/aws/ec2-high-memory-update-new-18-tb-and-24-tb-instances/"}
 {"name":"g4","year":2019,"prefix":"GPUPrefix"}
 {"name":"m5ad","year":2019,"prefix":"MainPrefix","flags":["AmdSuffix","NVMeSuffix"]}
 {"name":"r5d","year":2019,"prefix":"MemMorePrefix","flags":["NVMeSuffix"]}
@@ -67,6 +68,7 @@
 {"name":"r6g","year":2020,"prefix":"MemMorePrefix","flags":["GravitonSuffix"]}
 {"name":"r6gd","year":2020,"prefix":"MemMorePrefix","flags":["GravitonSuffix","NVMeSuffix"]}
 {"name":"t4g","year":2020,"prefix":"BurstPrefix","flags":["GravitonSuffix"]}
+{"name":"m6gd","year":2020,"prefix":"MainPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-graviton2-instance-types-c6g-r6g-and-their-d-variant/"}
 {"name":"x2gd","year":2021,"prefix":"MemXtremePrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2gd-instances-graviton2-power-for-memory-intensive-workloads/"}
 {"name":"m6i","year":2022,"prefix":"MainPrefix","flags":["IntelSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-m6i-instances-powered-by-the-latest-generation-intel-xeon-scalable-processors/"}
 {"name":"vt1","year":2021,"prefix":"VideoTranscodingPrefix","url":"https://aws.amazon.com/about-aws/whats-new/2021/09/amazon-ec2-vt1-instances-video-transcoding/"}
@@ -77,7 +79,7 @@
 {"name":"g5g","year":2021,"prefix":"GPUPrefix","flags":["GravitonSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-g5g-instances-powered-by-aws-graviton2-processors-and-nvidia-t4g-tensor-core-gpus/"}
 {"name":"c7g","year":2021,"prefix":"CpuPrefix","flags":["GravitonSuffix"],"url":"https://aws.amazon.com/blogs/aws/join-the-preview-amazon-ec2-c7g-instances-powered-by-new-aws-graviton3-processors/\ngraviton 3"}
 {"name":"im4gn","year":2021,"prefix":"SSDPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-storage-optimized-amazon-ec2-instances-im4gn-and-is4gen-powered-by-aws-graviton2-processors/"}
-{"name":"is4gn","year":2021,"prefix":"SSDPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-storage-optimized-amazon-ec2-instances-im4gn-and-is4gen-powered-by-aws-graviton2-processors/"}
+{"name":"is4gen","year":2021,"prefix":"SSDPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-storage-optimized-amazon-ec2-instances-im4gn-and-is4gen-powered-by-aws-graviton2-processors/"}
 {"name":"trn1","year":2021,"prefix":"InferencePrefix","url":"https://aws.amazon.com/about-aws/whats-new/2021/11/amazon-ec2-trn1-instances/\ntrn:\"Trainium\""}
 {"name":"hpc6a","year":2022,"prefix":"HPCPrefix","flags":["AmdSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-hpc6a-instance-optimized-for-high-performance-computing/"}
 {"name":"x2iezn","year":2022,"prefix":"XeonScalablePrefix","flags":["IntelSuffix","ExtendedMemorySuffix","HighFreqSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-x2iezn-instances-powered-by-the-fastest-intel-xeon-scalable-cpu-for-memory-intensive-workloads/"}
@@ -118,6 +120,7 @@
 {"name":"u7i","year":2023,"prefix":"MemUltraPrefix","flags":["IntelSuffix"],"url":"https://aws.amazon.com/blogs/aws/introducing-amazon-ec2-high-memory-u7i-instances-for-large-in-memory-databases-preview/"}
 {"name":"u7in","year":2023,"prefix":"MemUltraPrefix","flags":["IntelSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/blogs/aws/introducing-amazon-ec2-high-memory-u7i-instances-for-large-in-memory-databases-preview/"}
 {"name":"r8g","year":2023,"prefix":"MemMorePrefix","flags":["GravitonSuffix"],"url":"https://aws.amazon.com/blogs/aws/join-the-preview-for-new-memory-optimized-aws-graviton4-powered-amazon-ec2-instances-r8g/"}
+{"name":"trn1n","year":2023,"prefix":"InferencePrefix","flags":["NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2023/04/amazon-ec2-trn1n-instances-network-ai-models/"}
 {"name":"g6","year":2024,"prefix":"GPUPrefix","url":"https://aws.amazon.com/about-aws/whats-new/2024/04/general-availability-amazon-ec2-g6-instances/"}
 {"name":"c7i-flex","year":2024,"prefix":"CpuPrefix","flags":["IntelSuffix","FlexSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-compute-optimized-c7i-flex-amazon-ec2-flex-instances/"}
 {"name":"p5e","year":2024,"prefix":"GPUPrefix","url":"https://aws.amazon.com/blogs/machine-learning/amazon-ec2-p5e-instances-are-generally-available/"}
@@ -130,6 +133,7 @@
 {"name":"trn2","year":2024,"prefix":"InferencePrefix","url":"https://aws.amazon.com/blogs/aws/amazon-ec2-trn2-instances-and-trn2-ultraservers-for-aiml-training-and-inference-is-now-available/"}
 {"name":"f2","year":2024,"prefix":"FPGAPrefix","url":"https://aws.amazon.com/blogs/aws/now-available-second-generation-fpga-powered-amazon-ec2-instances-f2/"}
 {"name":"u7inh","year":2024,"prefix":"MemUltraPrefix","flags":["IntelSuffix","NetworkSuffix","HpeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-high-memory-u7inh-instance-on-hpe-server-for-large-in-memory-databases/"}
+{"name":"g6e","year":2024,"prefix":"GPUPrefix","flags":["ExtendedMemorySuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2024/08/amazon-ec2-g6e-instances/"}
 {"name":"c8gd","year":2025,"prefix":"CpuPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-graviton4-based-instances-with-nvme-ssd-storage/"}
 {"name":"m8gd","year":2025,"prefix":"MainPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-graviton4-based-instances-with-nvme-ssd-storage/"}
 {"name":"r8gd","year":2025,"prefix":"MemMorePrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-graviton4-based-instances-with-nvme-ssd-storage/"}
@@ -150,9 +154,34 @@
 {"name":"x8i","year":2025,"prefix":"MemXtremePrefix","flags":["IntelSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/12/amazon-ec2-x8i-instances-preview/"}
 {"name":"m8azn","year":2025,"prefix":"MainPrefix","flags":["AmdSuffix","HighFreqSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/12/aws-amazon-ec2-m8azn-preview/"}
 {"name":"m9g","year":2025,"prefix":"MainPrefix","flags":["GravitonSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/12/ec2-m9g-instances-graviton5-processors-preview/"}
+{"name":"i7i","year":2025,"prefix":"SSDPrefix","flags":["IntelSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/04/amazon-ec2-i7i-high-performance-storage-optimized-instances/"}
+{"name":"P6-B200","year":2025,"prefix":"GPUPrefix","flags":["GpuNvidiaSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-amazon-ec2-p6-b200-instances-powered-by-nvidia-blackwell-gpus-to-accelerate-ai-innovations/"}
+{"name":"g6f","year":2025,"prefix":"GPUPrefix","url":"https://aws.amazon.com/about-aws/whats-new/2025/07/amazon-ec2-g6f-instances-fractional-gpus/\nf: fractional gpu"}
+{"name":"i8ge","year":2025,"prefix":"SSDPrefix","flags":["GravitonSuffix","ExtendedMemorySuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/08/amazon-ec2-i8ge-instances-generally-available/"}
+{"name":"r8gn","year":2025,"prefix":"MemMorePrefix","flags":["GravitonSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/11/amazon-ec2-m8gb-m8gn-instances-generally-available/"}
+{"name":"m8gn","year":2025,"prefix":"MainPrefix","flags":["GravitonSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/12/generally-available-amazon-ec2-m8gn-m8gb-instances/"}
+{"name":"m8gb","year":2025,"prefix":"MainPrefix","flags":["GravitonSuffix","EBSOptimizedSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/12/generally-available-amazon-ec2-m8gn-m8gb-instances/"}
+{"name":"c8gb","year":2025,"prefix":"CpuPrefix","flags":["GravitonSuffix","EBSOptimizedSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2025/12/generally-available-amazon-ec2-c8gb-instances/"}
 {"name":"g7e","year":2026,"prefix":"GPUPrefix","flags":["ExtendedMemorySuffix"],"url":"https://aws.amazon.com/blogs/aws/announcing-amazon-ec2-g7e-instances-accelerated-by-nvidia-rtx-pro-6000-blackwell-server-edition-gpus/"}
 {"name":"c8id","year":2026,"prefix":"CpuPrefix","flags":["IntelSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/"}
 {"name":"m8id","year":2026,"prefix":"MainPrefix","flags":["IntelSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/"}
 {"name":"r8id","year":2026,"prefix":"MemMorePrefix","flags":["IntelSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c8id-m8id-and-r8id-instances-with-up-to-22-8-tb-local-nvme-storage-are-generally-available/"}
 {"name":"g7","year":2026,"prefix":"GPUPrefix","url":"https://aws.amazon.com/blogs/aws/announcing-amazon-ec2-g7-instances-accelerated-by-nvidia-rtx-pro-4500-blackwell-server-edition-gpus/"}
 {"name":"t8i","year":2026,"prefix":"BurstPrefix","flags":["IntelSuffix"],"url":"https://aws.amazon.com/blogs/aws/new-low-cost-burstable-amazon-ec2-t8i-instances-are-generally-available/"}
+{"name":"r8idn","year":2026,"prefix":"MemMorePrefix","flags":["IntelSuffix","NVMeSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/03/amazon-ec2-r8idn-r8idb/"}
+{"name":"r8idb","year":2026,"prefix":"MemMorePrefix","flags":["IntelSuffix","NVMeSuffix","EBSOptimizedSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/03/amazon-ec2-r8idn-r8idb/"}
+{"name":"c8in","year":2026,"prefix":"CpuPrefix","flags":["IntelSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-c8in-c8ib-instances-ga/"}
+{"name":"c8ib","year":2026,"prefix":"CpuPrefix","flags":["IntelSuffix","EBSOptimizedSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-c8in-c8ib-instances-ga/"}
+{"name":"r8in","year":2026,"prefix":"MemMorePrefix","flags":["IntelSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-r8in-r8ib/"}
+{"name":"r8ib","year":2026,"prefix":"MemMorePrefix","flags":["IntelSuffix","EBSOptimizedSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-r8in-r8ib/"}
+{"name":"m8in","year":2026,"prefix":"MainPrefix","flags":["IntelSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-m8in-m8ib/"}
+{"name":"m8ib","year":2026,"prefix":"MainPrefix","flags":["IntelSuffix","EBSOptimizedSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/amazon-ec2-m8in-m8ib/"}
+{"name":"c8ine","year":2026,"prefix":"CpuPrefix","flags":["IntelSuffix","NetworkSuffix","ExtendedMemorySuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/ec2-c8ine-m8ine/"}
+{"name":"m8ine","year":2026,"prefix":"MainPrefix","flags":["IntelSuffix","NetworkSuffix","ExtendedMemorySuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/04/ec2-c8ine-m8ine/"}
+{"name":"m8idn","year":2026,"prefix":"MainPrefix","flags":["IntelSuffix","NVMeSuffix","NetworkSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/05/amazon-ec2-m8idn-m8idb/"}
+{"name":"m8idb","year":2026,"prefix":"MainPrefix","flags":["IntelSuffix","NVMeSuffix","EBSOptimizedSuffix"],"url":"https://aws.amazon.com/about-aws/whats-new/2026/05/amazon-ec2-m8idn-m8idb/"}
+{"name":"c9g","year":2026,"prefix":"CpuPrefix","flags":["GravitonSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c9g-and-c9gd-instances-powered-by-aws-graviton5-processors-are-now-available/"}
+{"name":"c9gd","year":2026,"prefix":"CpuPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-c9g-and-c9gd-instances-powered-by-aws-graviton5-processors-are-now-available/"}
+{"name":"m9gd","year":2026,"prefix":"MainPrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/now-available-amazon-ec2-m9g-and-m9gd-instances-powered-by-new-aws-graviton5-processors/"}
+{"name":"r9g","year":2026,"prefix":"MemMorePrefix","flags":["GravitonSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-r9g-and-r9gd-instances-powered-by-aws-graviton5-processors-are-now-generally-available/"}
+{"name":"r9gd","year":2026,"prefix":"MemMorePrefix","flags":["GravitonSuffix","NVMeSuffix"],"url":"https://aws.amazon.com/blogs/aws/amazon-ec2-r9g-and-r9gd-instances-powered-by-aws-graviton5-processors-are-now-generally-available/"}
