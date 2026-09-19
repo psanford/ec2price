@@ -989,4 +989,11 @@ var instanceTypes = []InstanceTypeInfo{
 		Year:   2026,
 		Prefix: GPUPrefix,
 	},
+	{
+		// https://aws.amazon.com/blogs/aws/new-low-cost-burstable-amazon-ec2-t8i-instances-are-generally-available/
+		Name:   "t8i",
+		Year:   2026,
+		Prefix: BurstPrefix,
+		Flags:  IntelSuffix,
+	},
 }
